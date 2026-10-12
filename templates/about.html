@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .about-page {
+        padding: 4rem 2rem;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .page-header {
+        text-align: center;
+        margin-bottom: 4rem;
+    }
+
+    .page-header h1 {
+        font-size: 3rem;
+        color: #ffffff;
+        margin-bottom: 1rem;
+    }
+
+    .page-header p {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 1.2rem;
+    }
+
+    .about-content {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        padding: 3rem;
+        margin-bottom: 3rem;
+    }
+
+    .about-content h2 {
+        color: #00E5FF;
+        margin-bottom: 1.5rem;
+        font-size: 1.8rem;
+    }
+
+    .about-content p {
+        color: rgba(255, 255, 255, 0.8);
+        line-height: 1.8;
+        margin-bottom: 1.5rem;
+    }
+
+    .values-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+    }
+
+    .value-card {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        padding: 2rem;
+        text-align: center;
+    }
+
+    .value-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+
+    .value-card h3 {
+        color: #ffffff;
+        margin-bottom: 0.5rem;
+    }
+
+    .value-card p {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.9rem;
+    }
+</style>
+
+<div class="about-page">
+    <div class="page-header">
+        <h1>ABOUT PANDA HUB</h1>
+        <p>Professional Detailing. We Come to You.</p>
+    </div>
+
+    <div class="about-content">
+        <h2>OUR STORY</h2>
+        <p>Panda Hub Mobile Detailing was created around a simple idea: professional vehicle care should fit into the customer's schedule.</p>
+        
+        <p>Traditional detailing can require customers to drive to a shop, leave their vehicle, wait for the service to be completed, and then return to collect it. Panda Hub's mobile model is designed to remove that inconvenience by bringing detailing directly to the customer's preferred location.</p>
+        
+        <p>Our focus is simple: Convenience. Professional Care. A Better Customer Experience.</p>
+        
+        <p>We provide structured detailing packages so customers can easily choose the level of service that fits their vehicle and needs. From regular vehicle maintenance to deeper interior and exterior detailing, Panda Hub is designed around clear service options and an easy digital booking experience.</p>
+    </div>
+
+    <div class="about-content">
+        <h2>WHY CHOOSE PANDA HUB?</h2>
+        <div class="values-grid">
+            <div class="value-card">
+                <div class="value-icon">📍</div>
+                <h3>We Come to You</h3>
+                <p>Spend less time travelling and waiting.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">📋</div>
+                <h3>Clear Packages</h3>
+                <p>Choose from simple service levels instead of navigating complicated options.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">💝</div>
+                <h3>Customer Focused</h3>
+                <p>The experience is designed around convenience and clear communication.</p>
+            </div>
+            <div class="value-card">
+                <div class="value-icon">📱</div>
+                <h3>Easy Online Booking</h3>
+                <p>Review services and move toward booking through one digital experience.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="about-content">
+        <h2>OUR FUTURE</h2>
+        <p>Panda Hub is being developed as a customer-first mobile detailing concept with the potential to expand into recurring maintenance, fleet and corporate services as demand grows.</p>
+        
+        <p>Our autonomous mobile detailing units are equipped with 100-gallon spot-free deionized water tanks, quiet generators, 220°F high-temp dry vapor steam boilers, and heated extractors. We serve major Canadian metropolitan hubs including the GTA, Vancouver, Calgary, Montreal, and Ottawa.</p>
+    </div>
+</div>
+{% endblock %}

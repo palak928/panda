@@ -1,0 +1,193 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .faq-page {
+        padding: 4rem 2rem;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .page-header {
+        text-align: center;
+        margin-bottom: 4rem;
+    }
+
+    .page-header h1 {
+        font-size: 3rem;
+        color: #ffffff;
+        margin-bottom: 1rem;
+    }
+
+    .page-header p {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 1.2rem;
+    }
+
+    .faq-item {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        margin-bottom: 1rem;
+        overflow: hidden;
+    }
+
+    .faq-question {
+        padding: 1.5rem;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: background 0.3s;
+    }
+
+    .faq-question:hover {
+        background: rgba(0, 229, 255, 0.05);
+    }
+
+    .faq-question h3 {
+        color: #ffffff;
+        margin: 0;
+        font-size: 1.1rem;
+    }
+
+    .faq-toggle {
+        color: #00E5FF;
+        font-size: 1.5rem;
+        transition: transform 0.3s;
+    }
+
+    .faq-item.active .faq-toggle {
+        transform: rotate(45deg);
+    }
+
+    .faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-out;
+    }
+
+    .faq-item.active .faq-answer {
+        max-height: 500px;
+    }
+
+    .faq-answer p {
+        padding: 0 1.5rem 1.5rem;
+        color: rgba(255, 255, 255, 0.8);
+        line-height: 1.8;
+    }
+</style>
+
+<div class="faq-page">
+    <div class="page-header">
+        <h1>FREQUENTLY ASKED QUESTIONS</h1>
+        <p>Find answers to common questions about our services</p>
+    </div>
+
+    <div class="faq-item" onclick="toggleFAQ(this)">
+        <div class="faq-question">
+            <h3>Do you come to my home or workplace?</h3>
+            <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+            <p>Yes! Panda Hub is a mobile detailing service. We come directly to your home, workplace, or any convenient location. Our mobile units are 100% self-contained with onboard water and power, so we don't need access to your utilities.</p>
+        </div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFAQ(this)">
+        <div class="faq-question">
+            <h3>How long does detailing take?</h3>
+            <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+            <p>Service duration varies by package: Essential takes 1.5-2 hours, Complete takes 3-4 hours, and Premium takes 5-6 hours. The exact time depends on your vehicle size and condition.</p>
+        </div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFAQ(this)">
+        <div class="faq-question">
+            <h3>Do I need to provide water or electricity?</h3>
+            <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+            <p>No, you don't need to provide anything. Our mobile units are fully self-contained with 100-gallon water tanks and quiet generators. We bring everything needed to detail your vehicle.</p>
+        </div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFAQ(this)">
+        <div class="faq-question">
+            <h3>Can I book the same day?</h3>
+            <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+            <p>Same-day appointments are often available based on our schedule. We recommend booking online to check real-time availability. Popular time slots may require advance booking.</p>
+        </div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFAQ(this)">
+        <div class="faq-question">
+            <h3>Can you remove pet hair?</h3>
+            <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+            <p>Yes, we specialize in pet hair removal. Our Complete and Premium packages include specialized electrostatic tools and hot-water extraction to remove even the most stubborn embedded pet hair from carpets and upholstery.</p>
+        </div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFAQ(this)">
+        <div class="faq-question">
+            <h3>How often should I detail my car?</h3>
+            <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+            <p>We recommend detailing your vehicle every 3-4 months for optimal protection and appearance. However, this depends on your driving conditions, climate, and personal preferences. Regular detailing helps maintain your vehicle's value and condition.</p>
+        </div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFAQ(this)">
+        <div class="faq-question">
+            <h3>Do you detail SUVs and trucks?</h3>
+            <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+            <p>Yes, we detail all vehicle types including sedans, SUVs, trucks, vans, and luxury vehicles. Our pricing adjusts based on vehicle size to ensure fair and transparent pricing.</p>
+        </div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFAQ(this)">
+        <div class="faq-question">
+            <h3>Do you offer fleet/corporate services?</h3>
+            <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+            <p>Yes, we can accommodate fleet and corporate services. Contact us directly to discuss custom packages for multiple vehicles, regular maintenance schedules, and corporate rates.</p>
+        </div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFAQ(this)">
+        <div class="faq-question">
+            <h3>What areas do you serve?</h3>
+            <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+            <p>We currently serve major Canadian metropolitan areas including the GTA, Metro Vancouver, Calgary, Edmonton, Ottawa-Gatineau, Montreal, and Kitchener-Waterloo. Contact us to confirm service availability in your specific area.</p>
+        </div>
+    </div>
+
+    <div class="faq-item" onclick="toggleFAQ(this)">
+        <div class="faq-question">
+            <h3>What payment methods do you accept?</h3>
+            <span class="faq-toggle">+</span>
+        </div>
+        <div class="faq-answer">
+            <p>We accept credit cards, debit cards, and e-transfer. Payment is collected after service completion to ensure you're satisfied with the results.</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleFAQ(item) {
+        item.classList.toggle('active');
+    }
+</script>
+{% endblock %}

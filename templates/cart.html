@@ -1,0 +1,245 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .cart-page {
+        padding: 4rem 2rem;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .page-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+
+    .page-header h1 {
+        font-size: 3rem;
+        color: #ffffff;
+        margin-bottom: 1rem;
+    }
+
+    .page-header p {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 1.2rem;
+    }
+
+    .cart-items {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .cart-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.5rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .cart-item:last-child {
+        border-bottom: none;
+    }
+
+    .item-info h3 {
+        color: #ffffff;
+        margin-bottom: 0.5rem;
+    }
+
+    .item-info p {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.9rem;
+    }
+
+    .item-price {
+        color: #00E5FF;
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+
+    .remove-btn {
+        background: transparent;
+        color: #ff4444;
+        border: 1px solid #ff4444;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-left: 1rem;
+        transition: all 0.3s;
+    }
+
+    .remove-btn:hover {
+        background: #ff4444;
+        color: #ffffff;
+    }
+
+    .cart-summary {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        padding: 2rem;
+    }
+
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 1rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .summary-row:last-child {
+        border-bottom: none;
+    }
+
+    .summary-row.total {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #00E5FF;
+    }
+
+    .empty-cart {
+        text-align: center;
+        padding: 3rem;
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+    .empty-cart h2 {
+        color: #ffffff;
+        margin-bottom: 1rem;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #00E5FF, #0088CC);
+        color: #06080B;
+        padding: 1rem 3rem;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        width: 100%;
+        text-align: center;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(0, 229, 255, 0.4);
+    }
+
+    .btn-secondary {
+        background: transparent;
+        color: #ffffff;
+        padding: 1rem 3rem;
+        border: 2px solid #00E5FF;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        margin-top: 1rem;
+        transition: all 0.3s;
+    }
+
+    .btn-secondary:hover {
+        background: rgba(0, 229, 255, 0.1);
+    }
+</style>
+
+<div class="cart-page">
+    <div class="page-header">
+        <h1>YOUR CART</h1>
+        <p>Review your selected services</p>
+    </div>
+
+    <div class="cart-items" id="cartItems">
+        <div class="empty-cart">
+            <h2>Your cart is empty</h2>
+            <p>Add services to get started</p>
+            <a href="/services" class="btn-secondary" style="margin-top: 2rem;">BROWSE SERVICES</a>
+        </div>
+    </div>
+
+    <div class="cart-summary" id="cartSummary" style="display: none;">
+        <div class="summary-row">
+            <span>Subtotal</span>
+            <span id="subtotal">$0</span>
+        </div>
+        <div class="summary-row">
+            <span>Tax (13%)</span>
+            <span id="tax">$0</span>
+        </div>
+        <div class="summary-row total">
+            <span>Total</span>
+            <span id="total">$0</span>
+        </div>
+        <a href="/booking" class="btn-primary" style="margin-top: 2rem;">CONTINUE TO BOOKING</a>
+        <a href="/services" class="btn-secondary" style="margin-top: 1rem; display: inline-block; width: auto;">CONTINUE SHOPPING</a>
+    </div>
+</div>
+
+<script>
+    // Demo cart functionality (in a real app, this would be connected to a backend)
+    let cart = [];
+
+    function renderCart() {
+        const cartItemsDiv = document.getElementById('cartItems');
+        const cartSummaryDiv = document.getElementById('cartSummary');
+
+        if (cart.length === 0) {
+            cartItemsDiv.innerHTML = `
+                <div class="empty-cart">
+                    <h2>Your cart is empty</h2>
+                    <p>Add services to get started</p>
+                    <a href="/services" class="btn-secondary" style="margin-top: 2rem;">BROWSE SERVICES</a>
+                </div>
+            `;
+            cartSummaryDiv.style.display = 'none';
+            return;
+        }
+
+        let html = '';
+        let subtotal = 0;
+
+        cart.forEach((item, index) => {
+            subtotal += item.price;
+            html += `
+                <div class="cart-item">
+                    <div class="item-info">
+                        <h3>${item.name}</h3>
+                        <p>${item.description}</p>
+                    </div>
+                    <div style="display: flex; align-items: center;">
+                        <span class="item-price">$${item.price}</span>
+                        <button class="remove-btn" onclick="removeItem(${index})">REMOVE</button>
+                    </div>
+                </div>
+            `;
+        });
+
+        cartItemsDiv.innerHTML = html;
+        cartSummaryDiv.style.display = 'block';
+
+        const tax = subtotal * 0.13;
+        const total = subtotal + tax;
+
+        document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+        document.getElementById('tax').textContent = `$${tax.toFixed(2)}`;
+        document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+    }
+
+    function removeItem(index) {
+        cart.splice(index, 1);
+        renderCart();
+    }
+
+    // Initialize
+    renderCart();
+</script>
+{% endblock %}

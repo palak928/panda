@@ -1,0 +1,671 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    /* Hero Section */
+    .hero {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 2rem;
+        background: linear-gradient(135deg, #06080B 0%, #0E1015 100%);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect fill="%2306080B" width="100" height="100"/><circle cx="50" cy="50" r="40" fill="none" stroke="%2300E5FF" stroke-width="0.5" opacity="0.1"/></svg>');
+        opacity: 0.5;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 1;
+        max-width: 1200px;
+    }
+
+    .hero h1 {
+        font-size: 4rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, #ffffff, #00E5FF);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .hero h2 {
+        font-size: 2rem;
+        color: #ffffff;
+        margin-bottom: 1rem;
+    }
+
+    .hero p {
+        font-size: 1.2rem;
+        color: rgba(255, 255, 255, 0.7);
+        margin-bottom: 2rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .hero-buttons {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #00E5FF, #0088CC);
+        color: #06080B;
+        padding: 1rem 2.5rem;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+        text-decoration: none;
+        transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(0, 229, 255, 0.4);
+    }
+
+    .btn-secondary {
+        background: transparent;
+        color: #ffffff;
+        padding: 1rem 2.5rem;
+        border: 2px solid #00E5FF;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+        text-decoration: none;
+        transition: all 0.3s;
+    }
+
+    .btn-secondary:hover {
+        background: rgba(0, 229, 255, 0.1);
+        transform: translateY(-3px);
+    }
+
+    /* Before/After Slider */
+    .before-after-section {
+        padding: 4rem 2rem;
+        background: #0E1015;
+    }
+
+    .before-after-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        position: relative;
+        border-radius: 15px;
+        overflow: hidden;
+        height: 500px;
+    }
+
+    .before-after-images {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    .before-image, .after-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .before-image {
+        background: linear-gradient(135deg, #1a1a2e, #16213e);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .after-image {
+        background: linear-gradient(135deg, #0f3460, #16213e);
+        clip-path: inset(0 50% 0 0);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .slider-handle {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        width: 4px;
+        height: 100%;
+        background: #00E5FF;
+        cursor: ew-resize;
+        z-index: 10;
+    }
+
+    .slider-handle::before {
+        content: '◀ ▶';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #00E5FF;
+        color: #06080B;
+        padding: 0.5rem 1rem;
+        border-radius: 50%;
+        font-size: 0.8rem;
+        white-space: nowrap;
+    }
+
+    .label {
+        position: absolute;
+        top: 20px;
+        padding: 0.5rem 1.5rem;
+        background: rgba(0, 0, 0, 0.7);
+            color: #ffffff;
+        border-radius: 5px;
+        font-weight: bold;
+        z-index: 5;
+    }
+
+    .label-before {
+        left: 20px;
+    }
+
+    .label-after {
+        right: 20px;
+    }
+
+    /* What Does Your Car Need */
+    .needs-section {
+        padding: 4rem 2rem;
+        background: #06080B;
+        text-align: center;
+    }
+
+    .needs-section h2 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: #ffffff;
+    }
+
+    .needs-section p {
+        color: rgba(255, 255, 255, 0.7);
+        margin-bottom: 3rem;
+    }
+
+    .needs-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .need-card {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        padding: 2rem;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .need-card:hover {
+        background: rgba(0, 229, 255, 0.1);
+        border-color: #00E5FF;
+        transform: translateY(-5px);
+    }
+
+    .need-card.active {
+        background: rgba(0, 229, 255, 0.2);
+        border-color: #00E5FF;
+    }
+
+    .need-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+
+    .need-card h3 {
+        color: #ffffff;
+        margin-bottom: 0.5rem;
+    }
+
+    .need-recommendation {
+        margin-top: 2rem;
+        padding: 1.5rem;
+        background: rgba(0, 229, 255, 0.1);
+        border: 1px solid #00E5FF;
+        border-radius: 10px;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        display: none;
+    }
+
+    .need-recommendation.active {
+        display: block;
+    }
+
+    /* Service Packages */
+    .packages-section {
+        padding: 4rem 2rem;
+        background: #0E1015;
+    }
+
+    .packages-section h2 {
+        font-size: 2.5rem;
+        text-align: center;
+        margin-bottom: 1rem;
+        color: #ffffff;
+    }
+
+    .packages-section p {
+        text-align: center;
+        color: rgba(255, 255, 255, 0.7);
+        margin-bottom: 3rem;
+    }
+
+    .packages-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .package-card {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        padding: 2rem;
+        transition: all 0.3s;
+        position: relative;
+    }
+
+    .package-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .package-card.popular {
+        border: 2px solid #00E5FF;
+        background: rgba(0, 229, 255, 0.05);
+    }
+
+    .popular-badge {
+        position: absolute;
+        top: -12px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #00E5FF;
+        color: #06080B;
+        padding: 0.5rem 1.5rem;
+        border-radius: 20px;
+        font-weight: bold;
+        font-size: 0.9rem;
+    }
+
+    .package-card h3 {
+        font-size: 1.8rem;
+        color: #ffffff;
+        margin-bottom: 0.5rem;
+    }
+
+    .package-card .subtitle {
+        color: #00E5FF;
+        font-size: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .package-card .price {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #ffffff;
+        margin-bottom: 1.5rem;
+    }
+
+    .package-card .price span {
+        font-size: 1rem;
+        color: rgba(255, 255, 255, 0.5);
+    }
+
+    .package-features {
+        list-style: none;
+        margin-bottom: 2rem;
+    }
+
+    .package-features li {
+        color: rgba(255, 255, 255, 0.8);
+        padding: 0.5rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .package-features li::before {
+        content: '✓ ';
+        color: #00E5FF;
+        margin-right: 0.5rem;
+    }
+
+    /* How It Works */
+    .how-it-works {
+        padding: 4rem 2rem;
+        background: #06080B;
+        text-align: center;
+    }
+
+    .how-it-works h2 {
+        font-size: 2.5rem;
+        margin-bottom: 3rem;
+        color: #ffffff;
+    }
+
+    .steps-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .step-card {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        padding: 2rem;
+    }
+
+    .step-number {
+        font-size: 3rem;
+        font-weight: bold;
+        color: #00E5FF;
+        margin-bottom: 1rem;
+    }
+
+    .step-card h3 {
+        color: #ffffff;
+        margin-bottom: 0.5rem;
+    }
+
+    .step-card p {
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+    /* Footer */
+    .footer {
+        background: #06080B;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 3rem 2rem;
+        text-align: center;
+    }
+
+    .footer h3 {
+        color: #ffffff;
+        margin-bottom: 1rem;
+    }
+
+    .footer p {
+        color: rgba(255, 255, 255, 0.7);
+        margin-bottom: 2rem;
+    }
+
+    .footer-links {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        flex-wrap: wrap;
+        margin-bottom: 2rem;
+    }
+
+    .footer-links a {
+        color: rgba(255, 255, 255, 0.7);
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+    .footer-links a:hover {
+        color: #00E5FF;
+    }
+
+    @media (max-width: 768px) {
+        .hero h1 {
+            font-size: 2.5rem;
+        }
+
+        .hero h2 {
+            font-size: 1.5rem;
+        }
+
+        .before-after-container {
+            height: 300px;
+        }
+    }
+</style>
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-content">
+        <h1>YOUR CAR. OUR CANVAS.</h1>
+        <h2>Professional Detailing. We Come to You.</h2>
+        <p>Premium mobile car detailing designed around your vehicle, your schedule, and your location.</p>
+        <div class="hero-buttons">
+            <a href="/booking" class="btn-primary">✨ TRANSFORM MY CAR</a>
+            <a href="/services" class="btn-secondary">EXPLORE SERVICES ↓</a>
+        </div>
+    </div>
+</section>
+
+<!-- Before/After Slider -->
+<section class="before-after-section">
+    <div class="before-after-container" id="beforeAfterSlider">
+        <div class="before-after-images">
+            <div class="before-image">
+                <div class="label label-before">BEFORE</div>
+                <span style="font-size: 5rem;">🚗💨</span>
+            </div>
+            <div class="after-image">
+                <div class="label label-after">AFTER</div>
+                <span style="font-size: 5rem;">🚗✨</span>
+            </div>
+        </div>
+        <div class="slider-handle" id="sliderHandle"></div>
+    </div>
+</section>
+
+<!-- What Does Your Car Need -->
+<section class="needs-section">
+    <h2>WHAT DOES YOUR CAR NEED?</h2>
+    <p>Tell us what's bothering you. We'll help you find the right detail.</p>
+    
+    <div class="needs-grid">
+        <div class="need-card" onclick="selectNeed(this, 'pet hair')">
+            <div class="need-icon">🐾</div>
+            <h3>Pet Hair</h3>
+        </div>
+        <div class="need-card" onclick="selectNeed(this, 'stains')">
+            <div class="need-icon">☕</div>
+            <h3>Stains</h3>
+        </div>
+        <div class="need-card" onclick="selectNeed(this, 'messy interior')">
+            <div class="need-icon">🧹</div>
+            <h3>Messy Interior</h3>
+        </div>
+        <div class="need-card" onclick="selectNeed(this, 'dull exterior')">
+            <div class="need-icon">✨</div>
+            <h3>Dull Exterior</h3>
+        </div>
+        <div class="need-card" onclick="selectNeed(this, 'odor')">
+            <div class="need-icon">😷</div>
+            <h3>Odor</h3>
+        </div>
+        <div class="need-card" onclick="selectNeed(this, 'full refresh')">
+            <div class="need-icon">🚗</div>
+            <h3>Full Refresh</h3>
+        </div>
+    </div>
+
+    <div class="need-recommendation" id="needRecommendation">
+        <h3 style="color: #00E5FF; margin-bottom: 1rem;">Recommended Service</h3>
+        <p id="recommendationText" style="color: #ffffff;"></p>
+        <a href="/services" class="btn-primary" style="margin-top: 1rem; display: inline-block;">FIND MY SERVICE →</a>
+    </div>
+</section>
+
+<!-- Service Packages -->
+<section class="packages-section">
+    <h2>CHOOSE YOUR LEVEL</h2>
+    <p>From a quick refresh to a complete transformation.</p>
+    
+    <div class="packages-grid">
+        <div class="package-card">
+            <h3>ESSENTIAL</h3>
+            <p class="subtitle">THE REFRESH</p>
+            <div class="price">$129<span>/starting</span></div>
+            <ul class="package-features">
+                <li>Exterior wash</li>
+                <li>Interior vacuum</li>
+                <li>Dashboard cleaning</li>
+                <li>Window cleaning</li>
+                <li>Tire treatment</li>
+            </ul>
+            <a href="/booking" class="btn-secondary" style="display: block; text-align: center;">CHOOSE ESSENTIAL</a>
+        </div>
+
+        <div class="package-card popular">
+            <div class="popular-badge">MOST POPULAR</div>
+            <h3>COMPLETE</h3>
+            <p class="subtitle">THE TRANSFORMATION</p>
+            <div class="price">$229<span>/starting</span></div>
+            <ul class="package-features">
+                <li>Everything in Essential</li>
+                <li>Deep interior cleaning</li>
+                <li>Seat cleaning</li>
+                <li>Carpet treatment</li>
+                <li>Detailed exterior cleaning</li>
+                <li>Additional finishing services</li>
+            </ul>
+            <a href="/booking" class="btn-primary" style="display: block; text-align: center;">TRANSFORM MY CAR</a>
+        </div>
+
+        <div class="package-card">
+            <h3>PREMIUM</h3>
+            <p class="subtitle">THE SHOWROOM</p>
+            <div class="price">$349<span>/starting</span></div>
+            <ul class="package-features">
+                <li>Everything in Complete</li>
+                <li>Paint correction</li>
+                <li>Ceramic coating</li>
+                <li>Engine bay detailing</li>
+                <li>Headlight restoration</li>
+                <li>Premium finishing</li>
+            </ul>
+            <a href="/booking" class="btn-secondary" style="display: block; text-align: center;">GO PREMIUM</a>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works -->
+<section class="how-it-works">
+    <h2>HOW IT WORKS</h2>
+    <div class="steps-grid">
+        <div class="step-card">
+            <div class="step-number">01</div>
+            <h3>YOU BOOK</h3>
+            <p>Choose your service and preferred location.</p>
+        </div>
+        <div class="step-card">
+            <div class="step-number">02</div>
+            <h3>WE ARRIVE</h3>
+            <p>Our mobile detailing service comes directly to you.</p>
+        </div>
+        <div class="step-card">
+            <div class="step-number">03</div>
+            <h3>WE TRANSFORM</h3>
+            <p>We detail your vehicle with professional care.</p>
+        </div>
+        <div class="step-card">
+            <div class="step-number">04</div>
+            <h3>YOU ENJOY</h3>
+            <p>Get back on the road in a cleaner, fresher vehicle.</p>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <h3>PANDA HUB</h3>
+    <p>Professional Detailing. We Come to You.</p>
+    <div class="footer-links">
+        <a href="/">Home</a>
+        <a href="/services">Services</a>
+        <a href="/about">About</a>
+        <a href="/faq">FAQ</a>
+        <a href="/contact">Contact</a>
+    </div>
+    <p style="font-size: 0.9rem; margin-top: 2rem;">© 2026 Panda Hub Mobile Detailing. All rights reserved.</p>
+</footer>
+
+<script>
+    // Before/After Slider
+    const slider = document.getElementById('beforeAfterSlider');
+    const handle = document.getElementById('sliderHandle');
+    const afterImage = document.querySelector('.after-image');
+    let isDragging = false;
+
+    function updateSlider(x) {
+        const rect = slider.getBoundingClientRect();
+        let position = (x - rect.left) / rect.width * 100;
+        position = Math.max(0, Math.min(100, position));
+        
+        handle.style.left = position + '%';
+        afterImage.style.clipPath = `inset(0 ${100 - position}% 0 0)`;
+    }
+
+    handle.addEventListener('mousedown', () => isDragging = true);
+    document.addEventListener('mouseup', () => isDragging = false);
+    document.addEventListener('mousemove', (e) => {
+        if (isDragging) updateSlider(e.clientX);
+    });
+
+    // Touch support
+    handle.addEventListener('touchstart', () => isDragging = true);
+    document.addEventListener('touchend', () => isDragging = false);
+    document.addEventListener('touchmove', (e) => {
+        if (isDragging) updateSlider(e.touches[0].clientX);
+    });
+
+    // What Does Your Car Need
+    function selectNeed(card, need) {
+        document.querySelectorAll('.need-card').forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+
+        const recommendations = {
+            'pet hair': 'Stubborn pet hair can hide deep in carpets and upholstery. Our interior detailing focuses on the areas that regular vacuuming misses.',
+            'stains': 'Spills and stains require specialized treatment. Our Complete package includes hot-water extraction to lift even the toughest stains.',
+            'messy interior': 'A cluttered or dirty interior affects your driving experience. Our Complete package provides a thorough interior deep clean.',
+            'dull exterior': 'Dull paint needs professional attention. Our Premium package includes paint correction and ceramic coating for showroom shine.',
+            'odor': 'Unpleasant odors require more than air fresheners. Our ozone treatment eliminates odors at the source.',
+            'full refresh': 'For a complete vehicle transformation, our Premium package provides the most comprehensive detailing experience.'
+        };
+
+        document.getElementById('recommendationText').textContent = recommendations[need];
+        document.getElementById('needRecommendation').classList.add('active');
+    }
+</script>
+{% endblock %}
